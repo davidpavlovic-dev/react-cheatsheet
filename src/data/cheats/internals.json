@@ -1,0 +1,231 @@
+[
+  {
+    "id": "render-and-rerender",
+    "title": "Render and re-render",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["render", "re-render", "state", "props", "react internals"],
+    "summary": "Rendering is React calling your component function to calculate what the UI should look like.",
+    "whenToUse": "Understand this when debugging why a component updates, why console logs run again, or why a value appears stale during an event.",
+    "do": [
+      "Think of render as a calculation from props and state to JSX.",
+      "Expect a component to re-render when its state changes.",
+      "Keep render logic pure so calling the component again is safe."
+    ],
+    "dont": [
+      "Do not treat a render as the same thing as changing the real DOM.",
+      "Do not perform side effects directly while rendering."
+    ],
+    "codeSnippets": [
+      {
+        "id": "render-from-state",
+        "title": "UI is calculated from state",
+        "language": "jsx",
+        "description": "When state changes, React calls the component again and recalculates the JSX.",
+        "code": "function Counter() {\n  const [count, setCount] = useState(0);\n\n  console.log(\"render\", count);\n\n  return <button onClick={() => setCount(count + 1)}>{count}</button>;\n}",
+        "explanation": "Clicking the button updates state. React calls Counter again, so the log runs again with the new value."
+      }
+    ],
+    "commonMistake": "Assuming a re-render means React recreated the whole DOM instead of recalculating the component output first.",
+    "interviewQuestion": "What does it mean when a React component renders?",
+    "interviewAnswer": "React calls the component function to calculate JSX from the current props and state. React then decides what DOM work is actually needed.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The tabs demo logs renders to show when component functions run again."
+    },
+    "related": ["usestate-basics", "derived-state", "component-identity"]
+  },
+  {
+    "id": "state-update-batching",
+    "title": "State update batching",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["state", "batching", "setState", "event handlers", "react internals"],
+    "summary": "React can group multiple state updates from the same event before rendering once.",
+    "whenToUse": "Understand batching when multiple setter calls happen in one handler and the UI updates after the handler finishes.",
+    "do": [
+      "Use functional updates when the next state depends on the previous state.",
+      "Remember that state variables inside the current handler do not change immediately.",
+      "Group related updates in the same event handler when they describe one user action."
+    ],
+    "dont": [
+      "Do not expect a state variable to change immediately after calling its setter.",
+      "Do not repeat setState(value + 1) when each update depends on the previous result."
+    ],
+    "codeSnippets": [
+      {
+        "id": "batched-functional-updates",
+        "title": "Increment three times safely",
+        "language": "jsx",
+        "description": "Functional updates receive the latest pending state value.",
+        "code": "function LikeButton() {\n  const [likes, setLikes] = useState(0);\n\n  function addThree() {\n    setLikes((current) => current + 1);\n    setLikes((current) => current + 1);\n    setLikes((current) => current + 1);\n  }\n\n  return <button onClick={addThree}>{likes} likes</button>;\n}",
+        "explanation": "Each updater receives the latest queued value, so one click adds three instead of repeating the same stale value."
+      }
+    ],
+    "commonMistake": "Calling setCount(count + 1) multiple times in one handler and expecting each call to see a new count.",
+    "interviewQuestion": "Why are functional state updates useful?",
+    "interviewAnswer": "They are useful when the next state depends on the previous state, especially when React batches multiple updates together.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The tabs demo contrasts repeated stale updates with functional updates."
+    },
+    "related": ["usestate-basics", "event-handlers", "render-and-rerender"]
+  },
+  {
+    "id": "state-as-a-snapshot",
+    "title": "State as a snapshot",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["state", "snapshot", "stale state", "async", "react internals"],
+    "summary": "During one render, props and state behave like a snapshot that event handlers close over.",
+    "whenToUse": "Use this model when a console log after setState still shows the old value or a delayed callback reads an older value.",
+    "do": [
+      "Treat state values inside one render as fixed.",
+      "Use functional updates when delayed or repeated work depends on previous state.",
+      "Pass the exact value needed into async callbacks when possible."
+    ],
+    "dont": [
+      "Do not assume calling a setter mutates the current state variable.",
+      "Do not debug state by only logging immediately after a setter call."
+    ],
+    "codeSnippets": [
+      {
+        "id": "snapshot-log",
+        "title": "The current handler sees old state",
+        "language": "jsx",
+        "description": "A setter schedules the next render; it does not rewrite the current variable.",
+        "code": "function UndoExample() {\n  const [likes, setLikes] = useState(0);\n\n  function reset() {\n    setLikes(0);\n    console.log(likes);\n  }\n\n  return <button onClick={reset}>Reset</button>;\n}",
+        "explanation": "The log prints the likes value from the render that created this handler. The reset appears in the next render."
+      }
+    ],
+    "commonMistake": "Thinking setState changes the current local variable instead of scheduling a new render with a new value.",
+    "interviewQuestion": "Why can state look stale right after calling a setter?",
+    "interviewAnswer": "The handler is using the state snapshot from the current render. The setter schedules a new render where the updated value will be available.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The tab content example demonstrates logs after state updates and delayed undo behavior."
+    },
+    "related": ["state-update-batching", "usestate-basics", "event-handlers"]
+  },
+  {
+    "id": "component-identity",
+    "title": "Component identity and state preservation",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["component identity", "state preservation", "position", "tree", "react internals"],
+    "summary": "React preserves state for a component while it keeps the same type in the same position in the UI tree.",
+    "whenToUse": "Use this to understand why switching visible content may keep state, or why replacing one component with a different one resets state.",
+    "do": [
+      "Think about component type and position in the tree.",
+      "Expect state to be preserved when React sees the same component in the same place.",
+      "Use different component types when switching views should naturally reset their state."
+    ],
+    "dont": [
+      "Do not assume hiding and showing always resets state.",
+      "Do not rely on visual position alone; React tracks identity in the rendered tree."
+    ],
+    "codeSnippets": [
+      {
+        "id": "same-position-preserves-state",
+        "title": "Same component position keeps state",
+        "language": "jsx",
+        "description": "React keeps Panel state while the same component type remains in the same tree position.",
+        "code": "function Tabs({ activeItem }) {\n  return <Panel item={activeItem} />;\n}\n\nfunction Panel({ item }) {\n  const [isOpen, setIsOpen] = useState(true);\n  return <button onClick={() => setIsOpen((open) => !open)}>{isOpen ? item.title : \"Closed\"}</button>;\n}",
+        "explanation": "Changing item does not reset isOpen because Panel is still the same component in the same position."
+      }
+    ],
+    "commonMistake": "Expecting a component's state to reset just because its props changed.",
+    "interviewQuestion": "When does React preserve a component's state?",
+    "interviewAnswer": "React preserves state when the same component type remains in the same position of the rendered tree.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The tab demo shows state being preserved while the same tab content component stays in position."
+    },
+    "related": ["resetting-state-with-key", "render-and-rerender", "react-components"]
+  },
+  {
+    "id": "resetting-state-with-key",
+    "title": "Resetting state with key",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["key", "state reset", "component identity", "react internals"],
+    "summary": "Changing a component's key tells React to treat it as a different component and reset its state.",
+    "whenToUse": "Use a key to intentionally reset form fields, tab content, detail panels, or any component state when the selected data changes.",
+    "do": [
+      "Use a stable meaningful key when you intentionally want a fresh component instance.",
+      "Use keys to separate state between different selected records.",
+      "Keep the key tied to identity, such as an id or slug."
+    ],
+    "dont": [
+      "Do not use random keys because they reset state on every render.",
+      "Do not add keys blindly to fix unrelated bugs."
+    ],
+    "codeSnippets": [
+      {
+        "id": "reset-form-with-key",
+        "title": "Reset details when selection changes",
+        "language": "jsx",
+        "description": "A changing key creates a fresh Details component for each selected item.",
+        "code": "function App({ selectedId }) {\n  return selectedId ? <Details key={selectedId} id={selectedId} /> : null;\n}\n\nfunction Details({ id }) {\n  const [note, setNote] = useState(\"\");\n  return <textarea value={note} onChange={(event) => setNote(event.target.value)} />;\n}",
+        "explanation": "When selectedId changes, React discards the old Details state and mounts a new Details component."
+      }
+    ],
+    "commonMistake": "Using a random key, which forces React to throw away state every render.",
+    "interviewQuestion": "How can a key reset component state?",
+    "interviewAnswer": "A different key changes the component's identity, so React unmounts the old instance and mounts a new one with fresh state.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The final tabs demo uses a key on tab content so each selected tab can get fresh state."
+    },
+    "related": ["key-prop", "component-identity", "controlled-inputs"]
+  },
+  {
+    "id": "component-vs-element",
+    "title": "Component vs React element",
+    "category": "React Internals",
+    "level": "Beginner",
+    "tags": ["component", "element", "jsx", "react internals"],
+    "summary": "A component is a function you define; a React element is the object created when JSX describes that component or a DOM tag.",
+    "whenToUse": "Use this distinction when learning why components must be capitalized, why JSX is not HTML, and what React receives from your render.",
+    "do": [
+      "Name component functions with PascalCase.",
+      "Use JSX to create React elements.",
+      "Think of elements as descriptions, not DOM nodes."
+    ],
+    "dont": [
+      "Do not call component functions directly in normal app code.",
+      "Do not confuse a JSX element with the real browser DOM element."
+    ],
+    "codeSnippets": [
+      {
+        "id": "element-description",
+        "title": "JSX creates an element description",
+        "language": "jsx",
+        "description": "A component function and an element are related but not the same thing.",
+        "code": "function Greeting({ name }) {\n  return <h1>Hello, {name}</h1>;\n}\n\nconst element = <Greeting name=\"Ada\" />;",
+        "explanation": "Greeting is the component function. element is a React element that describes rendering Greeting with a name prop."
+      }
+    ],
+    "commonMistake": "Thinking JSX immediately creates DOM nodes instead of React element descriptions.",
+    "interviewQuestion": "What is the difference between a component and a React element?",
+    "interviewAnswer": "A component is a function or class that describes UI. A React element is the lightweight description produced by JSX and used by React during rendering.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "How React Works Behind the Scenes",
+      "repoFolder": "08-how-react-works",
+      "notes": "The section discusses calling components, JSX output, and how React interprets component functions."
+    },
+    "related": ["react-components", "jsx-expressions", "render-and-rerender"]
+  }
+]
+
