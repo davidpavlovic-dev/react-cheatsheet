@@ -103,7 +103,8 @@ h1 {
   border-bottom: 1px solid #d9e1e7;
 }
 
-.placeholder-control {
+.placeholder-control,
+.search-control {
   display: grid;
   gap: 8px;
 }
@@ -114,7 +115,7 @@ h1 {
   font-weight: 700;
 }
 
-.placeholder-field,
+.search-input,
 .filter-row span {
   display: inline-flex;
   min-height: 44px;
@@ -125,10 +126,15 @@ h1 {
   font-size: 0.95rem;
 }
 
-.placeholder-field {
+.search-input {
   width: min(520px, 100%);
   border-radius: 8px;
   padding: 0 14px;
+}
+
+.search-input:focus {
+  border-color: #2e6f68;
+  outline: 3px solid rgb(46 111 104 / 0.18);
 }
 
 .filter-row {
@@ -276,6 +282,24 @@ h2 {
   color: #667386;
   padding: 28px;
   text-align: center;
+}
+
+.empty-state {
+  border: 1px dashed #b7c3cc;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #5f6b7a;
+  padding: 32px;
+  text-align: center;
+}
+
+.empty-state h3 {
+  margin-top: 8px;
+}
+
+.empty-state p:last-child {
+  margin: 10px auto 0;
+  max-width: 520px;
 }
 
 .detail-page {
