@@ -7,16 +7,33 @@
     "tags": ["props", "data", "component", "parameters"],
     "summary": "Props are inputs passed from a parent component to a child component.",
     "whenToUse": "Use props when a child component needs data or configuration from the component that renders it.",
-    "syntax": "<Profile name=\"Ada\" role=\"Engineer\" />",
-    "example": "function Profile({ name, role }) {\n  return <p>{name} works as {role}</p>;\n}",
+    "do": [
+      "Pass only the data a child component needs.",
+      "Destructure props when it makes the component easier to scan.",
+      "Keep props read-only inside the child component."
+    ],
+    "dont": [
+      "Do not mutate props inside the child component.",
+      "Do not pass a large object when a few explicit props would be clearer."
+    ],
+    "codeSnippets": [
+      {
+        "id": "pass-props",
+        "title": "Pass props to a child",
+        "language": "jsx",
+        "description": "The parent provides values, and the child renders them.",
+        "code": "function Profile({ name, role }) {\n  return <p>{name} works as {role}</p>;\n}\n\n<Profile name=\"Ada\" role=\"Engineer\" />",
+        "explanation": "Profile receives name and role as props and uses them in its JSX."
+      }
+    ],
     "commonMistake": "Trying to change props inside the child component instead of asking the parent to update state.",
     "interviewQuestion": "Are props mutable inside a component?",
     "interviewAnswer": "No. Props are read-only from the child component's point of view; state changes should happen in the owner component.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Pizza Menu",
+      "repoFolder": "03-pizza-menu",
+      "notes": "Components receive data from parent components to render menu content."
     },
     "related": ["react-components", "children-prop"]
   },
@@ -28,16 +45,33 @@
     "tags": ["children", "composition", "props", "layout"],
     "summary": "children contains the JSX placed between a component's opening and closing tags.",
     "whenToUse": "Use children for wrapper components, layout components, reusable boxes, and flexible composition.",
-    "syntax": "<Card><p>Inside the card</p></Card>",
-    "example": "function Card({ children }) {\n  return <section className=\"card\">{children}</section>;\n}",
+    "do": [
+      "Use children when the caller should decide the nested content.",
+      "Keep wrapper components focused on structure or styling.",
+      "Combine children with regular props when both are useful."
+    ],
+    "dont": [
+      "Do not create many narrow content props when children would be simpler.",
+      "Do not assume children is always plain text; it can be any React node."
+    ],
+    "codeSnippets": [
+      {
+        "id": "card-children",
+        "title": "Wrap flexible content",
+        "language": "jsx",
+        "description": "A wrapper component can render whatever is placed inside it.",
+        "code": "function Card({ children }) {\n  return <section className=\"card\">{children}</section>;\n}\n\n<Card>\n  <h2>Plan</h2>\n  <p>Practice one topic today.</p>\n</Card>",
+        "explanation": "Card controls the outer section, while the caller controls the nested content."
+      }
+    ],
     "commonMistake": "Creating many specific props when children would make the component more flexible.",
     "interviewQuestion": "What is the children prop used for?",
     "interviewAnswer": "children lets a component receive and render nested JSX, making composition more flexible.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Steps",
+      "repoFolder": "04-steps",
+      "notes": "Wrapper and button components are useful places to practice composition."
     },
     "related": ["component-props", "react-components"]
   }

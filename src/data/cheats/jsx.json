@@ -7,16 +7,41 @@
     "tags": ["jsx", "expressions", "markup", "javascript"],
     "summary": "JSX lets you write markup-like syntax inside JavaScript and insert expressions with curly braces.",
     "whenToUse": "Use JSX to describe UI while keeping dynamic values close to the markup that displays them.",
-    "syntax": "<h1>{user.name}</h1>",
-    "example": "function Greeting({ user }) {\n  return <h1>Hello, {user.name}</h1>;\n}",
+    "do": [
+      "Use curly braces for JavaScript expressions.",
+      "Keep JSX readable by moving complex calculations into variables.",
+      "Use className instead of class."
+    ],
+    "dont": [
+      "Do not put statements like if or for directly inside JSX braces.",
+      "Do not forget to close JSX tags."
+    ],
+    "codeSnippets": [
+      {
+        "id": "expression-value",
+        "title": "Insert a value",
+        "language": "jsx",
+        "description": "Use curly braces to display a JavaScript expression.",
+        "code": "function Greeting({ user }) {\n  return <h1>Hello, {user.name}</h1>;\n}",
+        "explanation": "React evaluates user.name and places the result inside the h1."
+      },
+      {
+        "id": "computed-class",
+        "title": "Use a computed className",
+        "language": "jsx",
+        "description": "Expressions can also choose attributes.",
+        "code": "function Notice({ important }) {\n  const className = important ? \"notice notice--hot\" : \"notice\";\n  return <p className={className}>Read this</p>;\n}",
+        "explanation": "The className value is calculated before JSX renders."
+      }
+    ],
     "commonMistake": "Putting statements like if or for directly inside JSX braces; braces accept expressions.",
     "interviewQuestion": "What can you put inside JSX curly braces?",
     "interviewAnswer": "You can put JavaScript expressions, such as variables, function calls, ternaries, and array maps.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Pizza Menu",
+      "repoFolder": "03-pizza-menu",
+      "notes": "The project uses JSX to combine static markup with dynamic menu data."
     },
     "related": ["react-components", "conditional-rendering"]
   }

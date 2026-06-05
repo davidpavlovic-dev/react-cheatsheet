@@ -7,16 +7,33 @@
     "tags": ["useState", "state", "setState", "render"],
     "summary": "useState stores component data that can change over time and trigger a re-render.",
     "whenToUse": "Use it for local UI data such as counters, selected tabs, form fields, toggles, and small component state.",
-    "syntax": "const [count, setCount] = useState(0);",
-    "example": "function Counter() {\n  const [count, setCount] = useState(0);\n  return <button onClick={() => setCount(count + 1)}>{count}</button>;\n}",
+    "do": [
+      "Call useState at the top level of a component.",
+      "Use the setter function to update state.",
+      "Use a functional update when the next value depends on the previous value."
+    ],
+    "dont": [
+      "Do not mutate state variables directly.",
+      "Do not call hooks inside conditions, loops, or nested functions."
+    ],
+    "codeSnippets": [
+      {
+        "id": "counter-state",
+        "title": "Practical counter example",
+        "language": "jsx",
+        "description": "A small component that stores and updates local state.",
+        "code": "import { useState } from \"react\";\n\nfunction Counter() {\n  const [count, setCount] = useState(0);\n\n  return <button onClick={() => setCount((current) => current + 1)}>{count}</button>;\n}",
+        "explanation": "Clicking the button calls the setter, and React renders the component again with the new count."
+      }
+    ],
     "commonMistake": "Changing state variables directly instead of using the setter function.",
     "interviewQuestion": "What happens when you call a state setter?",
     "interviewAnswer": "React schedules an update and renders the component again with the new state value.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Steps",
+      "repoFolder": "04-steps",
+      "notes": "The project is a practical starting point for local UI state changes."
     },
     "related": ["event-handlers", "controlled-inputs", "conditional-rendering"]
   },
@@ -28,16 +45,41 @@
     "tags": ["events", "onClick", "handlers", "state"],
     "summary": "Event handlers are functions React runs in response to user actions.",
     "whenToUse": "Use handlers for clicks, form changes, submits, keyboard events, and other user interactions.",
-    "syntax": "<button onClick={handleClick}>Save</button>",
-    "example": "function SaveButton() {\n  function handleClick() {\n    alert(\"Saved\");\n  }\n\n  return <button onClick={handleClick}>Save</button>;\n}",
+    "do": [
+      "Pass a function reference to event props.",
+      "Name handlers after the action they handle, like handleSubmit.",
+      "Keep handler logic short or move complex logic into helper functions."
+    ],
+    "dont": [
+      "Do not call the handler while rendering unless you intentionally return another function.",
+      "Do not rely on stale state when the next value depends on the previous value."
+    ],
+    "codeSnippets": [
+      {
+        "id": "click-handler",
+        "title": "Handle a click",
+        "language": "jsx",
+        "description": "Pass the handler function to the event prop.",
+        "code": "function SaveButton() {\n  function handleClick() {\n    alert(\"Saved\");\n  }\n\n  return <button onClick={handleClick}>Save</button>;\n}",
+        "explanation": "React stores the handler and calls it when the user clicks the button."
+      },
+      {
+        "id": "inline-handler",
+        "title": "Pass an argument",
+        "language": "jsx",
+        "description": "Use an inline function when the handler needs a value.",
+        "code": "function Toolbar({ onChoose }) {\n  return <button onClick={() => onChoose(\"react\")}>React</button>;\n}",
+        "explanation": "The arrow function waits for the click before calling onChoose with the selected value."
+      }
+    ],
     "commonMistake": "Calling the handler during render with onClick={handleClick()} instead of passing the function.",
     "interviewQuestion": "Why do we pass a function to onClick instead of calling it?",
     "interviewAnswer": "Passing a function lets React call it later when the event happens; calling it runs immediately during render.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Steps",
+      "repoFolder": "04-steps",
+      "notes": "Buttons and navigation actions are a compact way to practice event handlers."
     },
     "related": ["usestate-basics", "controlled-inputs"]
   },
@@ -49,16 +91,41 @@
     "tags": ["forms", "inputs", "controlled", "useState"],
     "summary": "A controlled input gets its value from React state and updates that state on change.",
     "whenToUse": "Use controlled inputs when React needs to validate, submit, reset, or react to form values.",
-    "syntax": "<input value={name} onChange={(event) => setName(event.target.value)} />",
-    "example": "function NameField() {\n  const [name, setName] = useState(\"\");\n  return <input value={name} onChange={(event) => setName(event.target.value)} />;\n}",
+    "do": [
+      "Store the input value in state.",
+      "Update that state in onChange.",
+      "Use the state value when submitting or validating the form."
+    ],
+    "dont": [
+      "Do not pass value without an onChange handler unless the field is intentionally read-only.",
+      "Do not read directly from the DOM when React state already owns the form value."
+    ],
+    "codeSnippets": [
+      {
+        "id": "controlled-name",
+        "title": "Controlled text input",
+        "language": "jsx",
+        "description": "State is the source of truth for the input value.",
+        "code": "import { useState } from \"react\";\n\nfunction NameField() {\n  const [name, setName] = useState(\"\");\n\n  return <input value={name} onChange={(event) => setName(event.target.value)} />;\n}",
+        "explanation": "Every keystroke updates state, and the input displays the current state value."
+      },
+      {
+        "id": "submit-value",
+        "title": "Use the value on submit",
+        "language": "jsx",
+        "description": "Controlled state is ready to use when the form submits.",
+        "code": "function handleSubmit(event) {\n  event.preventDefault();\n  saveItem(name.trim());\n}",
+        "explanation": "The submit handler can use the latest state value without querying the DOM."
+      }
+    ],
     "commonMistake": "Providing a value prop without an onChange handler, which makes the input read-only.",
     "interviewQuestion": "What makes an input controlled in React?",
     "interviewAnswer": "Its displayed value comes from React state, and every change updates that state through an event handler.",
     "courseReference": {
       "course": "The Ultimate React Course",
-      "project": "Course reference pending",
-      "repoFolder": "",
-      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+      "project": "Travel List",
+      "repoFolder": "05-travel-list",
+      "notes": "Form fields are a practical place to connect input values to component state."
     },
     "related": ["usestate-basics", "event-handlers"]
   }

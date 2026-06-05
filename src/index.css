@@ -31,6 +31,10 @@ select {
   font: inherit;
 }
 
+a {
+  color: inherit;
+}
+
 .app-shell {
   min-height: 100vh;
 }
@@ -63,6 +67,19 @@ h1 {
   color: #111827;
   font-size: 3.5rem;
   line-height: 1.03;
+}
+
+.home-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.home-link:focus-visible,
+.back-link:focus-visible,
+.cheat-card-link:focus-visible,
+.copy-button:focus-visible {
+  outline: 3px solid #f2bd4a;
+  outline-offset: 4px;
 }
 
 .subtitle {
@@ -168,14 +185,32 @@ h2 {
 }
 
 .cheat-card {
-  display: flex;
   min-height: 246px;
-  flex-direction: column;
   border: 1px solid #d9e1e7;
   border-radius: 8px;
   background: #ffffff;
-  padding: 20px;
   box-shadow: 0 14px 34px rgb(22 32 50 / 0.06);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.cheat-card:hover,
+.cheat-card:focus-within {
+  border-color: #8fbab4;
+  box-shadow: 0 18px 38px rgb(22 32 50 / 0.1);
+  transform: translateY(-2px);
+}
+
+.cheat-card-link {
+  display: flex;
+  min-height: 246px;
+  height: 100%;
+  flex-direction: column;
+  color: inherit;
+  padding: 20px;
+  text-decoration: none;
 }
 
 .card-meta {
@@ -243,6 +278,205 @@ h2 {
   text-align: center;
 }
 
+.detail-page {
+  display: grid;
+  gap: 24px;
+}
+
+.back-link {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 40px;
+  align-items: center;
+  border: 1px solid #cfd8df;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #314153;
+  font-size: 0.9rem;
+  font-weight: 800;
+  padding: 0 12px;
+  text-decoration: none;
+}
+
+.detail-header,
+.detail-panel,
+.code-block,
+.not-found-panel {
+  border: 1px solid #d9e1e7;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgb(22 32 50 / 0.06);
+}
+
+.detail-header {
+  padding: 28px;
+}
+
+.detail-header h2 {
+  font-size: 2.3rem;
+  line-height: 1.08;
+}
+
+.detail-header p {
+  max-width: 760px;
+  margin: 14px 0 0;
+  color: #536072;
+  font-size: 1.05rem;
+}
+
+.detail-tags {
+  margin: 18px 0 0;
+  padding: 0;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.detail-panel {
+  padding: 22px;
+}
+
+.detail-panel h3,
+.code-block h3 {
+  font-size: 1.05rem;
+}
+
+.detail-panel p {
+  margin: 12px 0 0;
+  color: #5f6b7a;
+}
+
+.detail-list {
+  display: grid;
+  gap: 10px;
+  margin: 14px 0 0;
+  padding-left: 18px;
+  color: #5f6b7a;
+}
+
+.detail-section {
+  display: grid;
+  gap: 16px;
+}
+
+.detail-section-heading {
+  display: grid;
+  gap: 8px;
+}
+
+.code-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.code-block {
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  gap: 18px;
+  align-items: start;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.code-block-header p {
+  margin: 8px 0 0;
+  color: #5f6b7a;
+}
+
+.code-language {
+  margin: 0 0 8px;
+  color: #8a5a13;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.copy-button {
+  flex: 0 0 auto;
+  min-width: 92px;
+  min-height: 38px;
+  border: 1px solid #2e6f68;
+  border-radius: 8px;
+  background: #2e6f68;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.copy-button:hover {
+  background: #245b56;
+}
+
+pre {
+  margin: 0;
+  overflow-x: auto;
+  background: #172033;
+  color: #f8fafc;
+  padding: 20px;
+}
+
+code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  white-space: pre;
+}
+
+.snippet-explanation {
+  margin: 0;
+  border-top: 1px solid #d9e1e7;
+  color: #536072;
+  padding: 16px 20px 20px;
+}
+
+.answer-text {
+  border-left: 4px solid #f2bd4a;
+  padding-left: 12px;
+}
+
+.reference-list {
+  display: grid;
+  gap: 12px;
+  margin: 14px 0 0;
+}
+
+.reference-list div {
+  display: grid;
+  gap: 3px;
+}
+
+.reference-list dt {
+  color: #314153;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.reference-list dd {
+  margin: 0;
+  color: #5f6b7a;
+}
+
+.not-found-panel {
+  max-width: 720px;
+  padding: 28px;
+}
+
+.not-found-panel h2 {
+  margin-top: 8px;
+}
+
+.not-found-panel p:last-child {
+  margin: 12px 0 0;
+  color: #5f6b7a;
+}
+
 @media (max-width: 760px) {
   .app-container {
     width: min(100% - 32px, 1120px);
@@ -267,5 +501,26 @@ h2 {
 
   .cheat-grid {
     grid-template-columns: 1fr;
+  }
+
+  .detail-header,
+  .detail-panel {
+    padding: 20px;
+  }
+
+  .detail-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .code-block-header {
+    flex-direction: column;
+  }
+
+  .copy-button {
+    width: 100%;
   }
 }
