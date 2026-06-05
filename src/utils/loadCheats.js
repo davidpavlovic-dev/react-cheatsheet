@@ -2,6 +2,7 @@ import basics from "../data/cheats/basics.json";
 import effects from "../data/cheats/effects.json";
 import hooks from "../data/cheats/hooks.json";
 import internals from "../data/cheats/internals.json";
+import javascript from "../data/cheats/javascript.json";
 import jsx from "../data/cheats/jsx.json";
 import next from "../data/cheats/next.json";
 import props from "../data/cheats/props.json";
@@ -13,6 +14,7 @@ import state from "../data/cheats/state.json";
 
 const cheatGroups = [
   basics,
+  javascript,
   jsx,
   props,
   state,

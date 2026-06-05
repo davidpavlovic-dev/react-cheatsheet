@@ -119,7 +119,7 @@
       "repoFolder": "07-usepopcorn",
       "notes": "The app fetches movie search results from an API when the query changes."
     },
-    "related": ["loading-state", "error-state", "effect-cleanup-function", "custom-hooks"]
+    "related": ["js-fetch-api-basics", "loading-state", "error-state", "effect-cleanup-function", "custom-hooks"]
   },
   {
     "id": "effect-cleanup-function",

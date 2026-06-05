@@ -1,0 +1,822 @@
+[
+  {
+    "id": "js-destructuring-for-react",
+    "title": "Destructuring for React",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "destructuring", "props", "arrays", "objects"],
+    "summary": "Destructuring pulls values out of objects or arrays into named variables.",
+    "whenToUse": "Use it constantly in React for props, hook return values, API objects, event objects, and array values.",
+    "do": [
+      "Destructure props in component parameters when it improves readability.",
+      "Use array destructuring for hooks like useState.",
+      "Use clear variable names after destructuring."
+    ],
+    "dont": [
+      "Do not destructure deeply if it makes the component harder to scan.",
+      "Do not destructure values before checking that optional data exists."
+    ],
+    "codeSnippets": [
+      {
+        "id": "destructure-props",
+        "title": "Destructure component props",
+        "language": "jsx",
+        "description": "React props are objects, so destructuring keeps component code short.",
+        "code": "function UserCard({ name, role, isOnline }) {\n  return <p>{name} is {isOnline ? \"online\" : \"away\"} as {role}</p>;\n}",
+        "explanation": "The component receives one props object, then destructures the values it needs."
+      },
+      {
+        "id": "destructure-state",
+        "title": "Destructure hook return values",
+        "language": "jsx",
+        "description": "useState returns a two-item array.",
+        "code": "const [query, setQuery] = useState(\"\");",
+        "explanation": "The first array item is the current value, and the second is the setter function."
+      }
+    ],
+    "commonMistake": "Destructuring nested values before the parent object exists, causing a runtime error.",
+    "interviewQuestion": "Why is destructuring common in React?",
+    "interviewAnswer": "React often passes data as objects or arrays, and destructuring makes it easy to pull out the exact values a component or hook needs.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review introduces object and array destructuring before React props and hooks use the same pattern."
+    },
+    "related": ["component-props", "usestate-basics", "js-optional-chaining-nullish"]
+  },
+  {
+    "id": "js-spread-rest-immutability",
+    "title": "Spread, rest, and immutability",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "spread", "rest", "immutability", "state"],
+    "summary": "Spread copies arrays or objects, while rest collects leftover values into an array or object.",
+    "whenToUse": "Use spread to create new state objects or arrays instead of mutating existing state.",
+    "do": [
+      "Use spread to add items to an array immutably.",
+      "Use object spread to update one property while keeping the others.",
+      "Use rest when you need the remaining values after destructuring."
+    ],
+    "dont": [
+      "Do not mutate React state arrays with push, splice, or direct assignment.",
+      "Do not forget that spread is shallow."
+    ],
+    "codeSnippets": [
+      {
+        "id": "add-array-item",
+        "title": "Add an item without mutation",
+        "language": "jsx",
+        "description": "Create a new array when updating React state.",
+        "code": "setItems((items) => [...items, newItem]);",
+        "explanation": "React receives a new array reference, so it can detect that state changed."
+      },
+      {
+        "id": "update-object-item",
+        "title": "Update one object in an array",
+        "language": "jsx",
+        "description": "Map over the array and copy only the item that changes.",
+        "code": "setItems((items) =>\n  items.map((item) =>\n    item.id === id ? { ...item, packed: !item.packed } : item,\n  ),\n);",
+        "explanation": "The unchanged items keep their identity, while the changed item becomes a new object."
+      }
+    ],
+    "commonMistake": "Mutating an existing state object and then wondering why React does not update reliably.",
+    "interviewQuestion": "Why is immutability important for React state?",
+    "interviewAnswer": "React relies on new object or array references to understand that state changed and to keep updates predictable.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review shows spread for copying arrays and objects, which later becomes essential for state updates."
+    },
+    "related": ["usestate-basics", "js-map-filter-reduce", "lifting-state-up"]
+  },
+  {
+    "id": "js-ternary-and-short-circuit",
+    "title": "Ternary and short-circuit rendering",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "ternary", "&&", "conditional rendering", "jsx"],
+    "summary": "Ternaries and logical && are JavaScript expressions that are useful for conditional JSX.",
+    "whenToUse": "Use a ternary when choosing between two UI branches, and use && for a small optional fragment.",
+    "do": [
+      "Use ternaries for clear either-or rendering.",
+      "Use && for small optional UI.",
+      "Move complex conditions into named variables."
+    ],
+    "dont": [
+      "Do not create deeply nested ternaries inside JSX.",
+      "Do not use && with values like 0 if rendering 0 would be confusing."
+    ],
+    "codeSnippets": [
+      {
+        "id": "ternary-ui",
+        "title": "Choose between two labels",
+        "language": "jsx",
+        "description": "Use a ternary when both true and false branches matter.",
+        "code": "function SaveStatus({ isSaved }) {\n  return <p>{isSaved ? \"Saved\" : \"Unsaved changes\"}</p>;\n}",
+        "explanation": "The ternary returns one string when isSaved is true and another when it is false."
+      },
+      {
+        "id": "short-circuit-ui",
+        "title": "Render optional content",
+        "language": "jsx",
+        "description": "Use && when you only need to show something in the true case.",
+        "code": "function ErrorBanner({ error }) {\n  return <>{error && <p role=\"alert\">{error}</p>}</>;\n}",
+        "explanation": "When error is truthy, React renders the paragraph. When it is empty, React renders nothing."
+      }
+    ],
+    "commonMistake": "Using a nested ternary for complex UI instead of extracting variables or components.",
+    "interviewQuestion": "How do JavaScript expressions help with conditional rendering in React?",
+    "interviewAnswer": "JSX accepts expressions, so ternaries and && can return different UI based on current props or state.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review covers ternaries and logical operators before they are used in JSX."
+    },
+    "related": ["conditional-rendering", "jsx-expressions", "error-state"]
+  },
+  {
+    "id": "js-optional-chaining-nullish",
+    "title": "Optional chaining and nullish coalescing",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "optional chaining", "nullish coalescing", "api data"],
+    "summary": "Optional chaining safely reads nested properties, and nullish coalescing provides defaults only for null or undefined.",
+    "whenToUse": "Use them when rendering API data that may be incomplete or not loaded yet.",
+    "do": [
+      "Use ?. when part of a nested object may be missing.",
+      "Use ?? when 0 or an empty string are valid values.",
+      "Prefer clear fallback text for user-facing UI."
+    ],
+    "dont": [
+      "Do not use || when 0 is a valid value you want to keep.",
+      "Do not let optional chaining hide data-shape bugs that should be fixed."
+    ],
+    "codeSnippets": [
+      {
+        "id": "safe-nested-read",
+        "title": "Read nested API data safely",
+        "language": "jsx",
+        "description": "Avoid crashes when nested data is missing.",
+        "code": "const reviewCount = book.reviews?.librarything?.reviewsCount ?? 0;\n\nreturn <p>{reviewCount} reviews</p>;",
+        "explanation": "If reviews or librarything is missing, the expression falls back to 0 instead of throwing."
+      },
+      {
+        "id": "nullish-vs-or",
+        "title": "Keep valid zero values",
+        "language": "jsx",
+        "description": "Use ?? when 0 should not be replaced.",
+        "code": "const rating = movie.userRating ?? \"Not rated yet\";",
+        "explanation": "Nullish coalescing only falls back for null or undefined, not for 0."
+      }
+    ],
+    "commonMistake": "Using || for defaults and accidentally replacing valid values like 0 or an empty string.",
+    "interviewQuestion": "When should you use ?? instead of ||?",
+    "interviewAnswer": "Use ?? when only null or undefined should trigger the fallback, while values like 0, false, or an empty string should stay valid.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review compares optional chaining and nullish coalescing for nested review data."
+    },
+    "related": ["error-state", "useeffect-fetch-data", "js-destructuring-for-react"]
+  },
+  {
+    "id": "js-map-filter-reduce",
+    "title": "map, filter, and reduce",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "map", "filter", "reduce", "arrays", "rendering"],
+    "summary": "map transforms arrays, filter keeps matching items, and reduce combines an array into one value.",
+    "whenToUse": "Use them for rendering lists, searching, deleting items, deriving totals, and building UI data from raw data.",
+    "do": [
+      "Use map to render or transform each item.",
+      "Use filter to remove or select items immutably.",
+      "Use reduce for totals and grouped values."
+    ],
+    "dont": [
+      "Do not mutate arrays while deriving UI.",
+      "Do not use reduce when map or filter would be clearer."
+    ],
+    "codeSnippets": [
+      {
+        "id": "map-to-jsx",
+        "title": "Render with map",
+        "language": "jsx",
+        "description": "Turn an array of data into repeated JSX.",
+        "code": "const rows = books.map((book) => <li key={book.id}>{book.title}</li>);",
+        "explanation": "map returns a new array of JSX elements, and each element needs a stable key."
+      },
+      {
+        "id": "filter-and-reduce",
+        "title": "Filter and total data",
+        "language": "jsx",
+        "description": "Combine array methods to derive display values.",
+        "code": "const longBooks = books.filter((book) => book.pages > 500);\nconst totalPages = longBooks.reduce((sum, book) => sum + book.pages, 0);",
+        "explanation": "filter creates a smaller array, and reduce turns it into a single total."
+      }
+    ],
+    "commonMistake": "Using map for side effects instead of returning a transformed value.",
+    "interviewQuestion": "Why is map so common in React?",
+    "interviewAnswer": "React renders repeated UI from arrays, and map is the standard way to transform each data item into JSX.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review practices map, filter, and reduce with book data before React uses them for lists and derived state."
+    },
+    "related": ["rendering-lists", "key-prop", "derived-state"]
+  },
+  {
+    "id": "js-sort-without-mutation",
+    "title": "Sorting without mutation",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "sort", "immutability", "arrays", "state"],
+    "summary": "Array sort mutates the original array, so copy the array before sorting React data.",
+    "whenToUse": "Use this when sorting lists from props, state, API data, or derived UI collections.",
+    "do": [
+      "Copy the array with slice or spread before sort.",
+      "Use a compare function for numbers and custom object fields.",
+      "Keep the original state array unchanged."
+    ],
+    "dont": [
+      "Do not call sort directly on state.",
+      "Do not forget that default sort compares values as strings."
+    ],
+    "codeSnippets": [
+      {
+        "id": "sort-copy",
+        "title": "Copy before sorting",
+        "language": "jsx",
+        "description": "Avoid mutating the original array.",
+        "code": "const sortedItems = items\n  .slice()\n  .sort((a, b) => a.name.localeCompare(b.name));",
+        "explanation": "slice creates a copy, so sort can reorder the copy without mutating state."
+      },
+      {
+        "id": "sort-numbers",
+        "title": "Sort by numeric value",
+        "language": "jsx",
+        "description": "Use subtraction for numeric sorting.",
+        "code": "const shortestFirst = movies.slice().sort((a, b) => a.runtime - b.runtime);",
+        "explanation": "The compare function tells JavaScript how to order numeric values."
+      }
+    ],
+    "commonMistake": "Calling items.sort(...) directly on a state array, which mutates existing state.",
+    "interviewQuestion": "Why should you copy an array before sorting it in React?",
+    "interviewAnswer": "sort mutates the array, and React state should be treated as immutable, so sorting a copy avoids changing existing state directly.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review shows slice before sort so the original array remains unchanged."
+    },
+    "related": ["js-spread-rest-immutability", "derived-state", "rendering-lists"]
+  },
+  {
+    "id": "js-immutable-array-updates",
+    "title": "Immutable array updates",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "immutability", "arrays", "state", "map", "filter"],
+    "summary": "React state arrays should be updated by creating new arrays, not by mutating the existing one.",
+    "whenToUse": "Use immutable array updates for adding, deleting, toggling, and editing items in state.",
+    "do": [
+      "Use spread to add an item.",
+      "Use filter to remove an item.",
+      "Use map to update one item."
+    ],
+    "dont": [
+      "Do not use push, pop, splice, or direct item assignment on state arrays.",
+      "Do not update an object inside an array without copying that object."
+    ],
+    "codeSnippets": [
+      {
+        "id": "array-add-delete-update",
+        "title": "Add, delete, update",
+        "language": "jsx",
+        "description": "Three common immutable array operations.",
+        "code": "setBooks((books) => [...books, newBook]);\nsetBooks((books) => books.filter((book) => book.id !== id));\nsetBooks((books) =>\n  books.map((book) => (book.id === id ? { ...book, pages: 420 } : book)),\n);",
+        "explanation": "Each operation returns a new array, and the update also returns a new object for the changed item."
+      }
+    ],
+    "commonMistake": "Updating an item by changing a property on the existing object inside the array.",
+    "interviewQuestion": "How do you update an item inside a React state array?",
+    "interviewAnswer": "Use map to return a new array, copy the matching item with object spread, and leave all other items unchanged.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review practices add, delete, and update operations with arrays of objects."
+    },
+    "related": ["js-spread-rest-immutability", "usestate-basics", "rendering-lists"]
+  },
+  {
+    "id": "js-template-literals",
+    "title": "Template literals",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "template literals", "strings", "jsx"],
+    "summary": "Template literals create strings with embedded expressions using backticks and ${...}.",
+    "whenToUse": "Use them for readable labels, messages, dynamic class names, URLs, and small formatted strings.",
+    "do": [
+      "Use template literals when a string includes variables.",
+      "Keep formatting logic simple and readable.",
+      "Move complex string building into a helper function."
+    ],
+    "dont": [
+      "Do not build long UI strings with many plus operators.",
+      "Do not hide complicated conditional text inside one huge template literal."
+    ],
+    "codeSnippets": [
+      {
+        "id": "dynamic-label",
+        "title": "Create a dynamic label",
+        "language": "jsx",
+        "description": "Embed expressions in a string.",
+        "code": "const label = `${title} has ${pages} pages`;\n\nreturn <p>{label}</p>;",
+        "explanation": "The expressions inside ${...} are evaluated and inserted into the final string."
+      },
+      {
+        "id": "dynamic-url",
+        "title": "Build a request URL",
+        "language": "jsx",
+        "description": "Template literals are useful for small dynamic URLs.",
+        "code": "const url = `/api/books?query=${encodeURIComponent(query)}`;",
+        "explanation": "The query value becomes part of the URL while encodeURIComponent keeps it safe for a query string."
+      }
+    ],
+    "commonMistake": "Forgetting that JSX expressions still need curly braces around a template literal.",
+    "interviewQuestion": "Why are template literals useful in React code?",
+    "interviewAnswer": "They make dynamic strings easier to read when UI text, class names, or URLs include JavaScript values.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review uses template literals to build a book summary string."
+    },
+    "related": ["jsx-expressions", "js-ternary-and-short-circuit"]
+  },
+  {
+    "id": "js-arrow-functions-callbacks",
+    "title": "Arrow functions and callbacks",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "arrow functions", "callbacks", "events", "array methods"],
+    "summary": "Arrow functions are compact functions often passed as callbacks to events and array methods.",
+    "whenToUse": "Use them for event handlers that pass arguments, inline array transformations, and small helper functions.",
+    "do": [
+      "Pass a function to event props instead of calling it during render.",
+      "Use arrow callbacks with map, filter, and reduce.",
+      "Extract functions when inline callbacks become hard to read."
+    ],
+    "dont": [
+      "Do not write onClick={handleClick()} unless handleClick returns another function on purpose.",
+      "Do not cram complex multi-step logic into a tiny inline callback."
+    ],
+    "codeSnippets": [
+      {
+        "id": "event-callback-argument",
+        "title": "Pass an argument in an event",
+        "language": "jsx",
+        "description": "Wrap the function call in another function so it waits for the click.",
+        "code": "function BookRow({ book, onSelect }) {\n  return <button onClick={() => onSelect(book.id)}>{book.title}</button>;\n}",
+        "explanation": "The arrow function is the event handler. It calls onSelect only when the user clicks."
+      },
+      {
+        "id": "map-callback",
+        "title": "Use callbacks with array methods",
+        "language": "jsx",
+        "description": "Array methods receive callback functions.",
+        "code": "const titles = books.map((book) => book.title);",
+        "explanation": "map calls the arrow function once for each book and returns a new array of titles."
+      }
+    ],
+    "commonMistake": "Calling a function immediately in JSX instead of passing a callback to React.",
+    "interviewQuestion": "What is a callback function?",
+    "interviewAnswer": "A callback is a function passed to another function so it can be called later, such as on a click or for each array item.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review uses arrow functions for helpers and array method callbacks."
+    },
+    "related": ["event-handlers", "js-map-filter-reduce", "component-props"]
+  },
+  {
+    "id": "js-promises-async-await",
+    "title": "Promises and async/await",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "promises", "async", "await", "fetch", "api"],
+    "summary": "Promises represent future values, and async/await lets you write promise code in a readable step-by-step style.",
+    "whenToUse": "Use async/await for API calls, loading data, submitting forms, and any operation that finishes later.",
+    "do": [
+      "Use await inside an async function.",
+      "Wrap awaited work in try/catch when it can fail.",
+      "Remember that an async function always returns a promise."
+    ],
+    "dont": [
+      "Do not expect an async function result synchronously.",
+      "Do not ignore rejected promises."
+    ],
+    "codeSnippets": [
+      {
+        "id": "fetch-json-async",
+        "title": "Fetch JSON with async/await",
+        "language": "jsx",
+        "description": "Wait for the response and then wait for JSON parsing.",
+        "code": "async function loadTodos() {\n  const response = await fetch(\"/api/todos\");\n  if (!response.ok) throw new Error(\"Could not load todos\");\n  return await response.json();\n}",
+        "explanation": "fetch returns a promise, response.json returns another promise, and await pauses this async function until each finishes."
+      },
+      {
+        "id": "use-async-result",
+        "title": "Use async result later",
+        "language": "jsx",
+        "description": "An async function returns a promise, so handle it with await or then.",
+        "code": "async function handleRefresh() {\n  try {\n    const todos = await loadTodos();\n    setTodos(todos);\n  } catch (error) {\n    setError(error.message);\n  }\n}",
+        "explanation": "The handler waits for the data before updating state and catches failures for user feedback."
+      }
+    ],
+    "commonMistake": "Assigning const data = loadTodos() and expecting data to already contain the resolved array.",
+    "interviewQuestion": "What does an async function return?",
+    "interviewAnswer": "An async function always returns a promise, even when you return a plain value from inside it.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review ends with fetch, promises, and async/await before API work in React effects."
+    },
+    "related": ["js-fetch-api-basics", "useeffect-fetch-data", "loading-state", "error-state"]
+  },
+  {
+    "id": "js-fetch-api-basics",
+    "title": "Fetch API basics",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "fetch", "api", "http", "json"],
+    "summary": "fetch starts an HTTP request and returns a promise for the response.",
+    "whenToUse": "Use fetch when a React app needs to load or send data from a browser-based API request.",
+    "do": [
+      "Await the fetch response before reading the body.",
+      "Check response.ok because fetch does not throw for HTTP error statuses.",
+      "Parse JSON with response.json when the API returns JSON."
+    ],
+    "dont": [
+      "Do not assume fetch throws for 404 or 500 responses.",
+      "Do not forget that response.json also returns a promise."
+    ],
+    "codeSnippets": [
+      {
+        "id": "load-json-data",
+        "title": "Load JSON data",
+        "language": "js",
+        "description": "A small helper that gets JSON from an endpoint.",
+        "code": "async function getMovies(query) {\n  const response = await fetch(`/api/movies?query=${encodeURIComponent(query)}`);\n\n  if (!response.ok) {\n    throw new Error(\"Could not load movies\");\n  }\n\n  return response.json();\n}",
+        "explanation": "The helper waits for the response, handles HTTP failures, and returns the parsed JSON promise."
+      },
+      {
+        "id": "post-json-data",
+        "title": "Send JSON data",
+        "language": "js",
+        "description": "Send a JSON body with headers.",
+        "code": "async function createTodo(todo) {\n  const response = await fetch(\"/api/todos\", {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: JSON.stringify(todo),\n  });\n\n  if (!response.ok) throw new Error(\"Could not create todo\");\n  return response.json();\n}",
+        "explanation": "POST requests usually include a method, a JSON content type, and a stringified body."
+      }
+    ],
+    "commonMistake": "Catching network errors but forgetting to check response.ok for HTTP errors.",
+    "interviewQuestion": "Does fetch throw an error for a 404 response?",
+    "interviewAnswer": "No. fetch only rejects for network-level failures. You should check response.ok and throw your own error for bad HTTP statuses.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review introduces fetch and async/await before React uses requests in effects."
+    },
+    "related": ["js-promises-async-await", "js-json-parse-stringify", "useeffect-fetch-data"]
+  },
+  {
+    "id": "js-json-parse-stringify",
+    "title": "JSON parse and stringify",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "json", "parse", "stringify", "api", "localStorage"],
+    "summary": "JSON is the text format most APIs and browser storage examples use to move JavaScript-like data around.",
+    "whenToUse": "Use JSON.stringify before sending or saving objects, and JSON.parse when reading JSON text back into JavaScript values.",
+    "do": [
+      "Use JSON.stringify for request bodies and localStorage values.",
+      "Use JSON.parse only on valid JSON strings.",
+      "Handle parse failures when stored or remote data may be invalid."
+    ],
+    "dont": [
+      "Do not store raw objects in localStorage without stringifying them.",
+      "Do not assume JSON.parse can parse JavaScript syntax like comments or trailing commas."
+    ],
+    "codeSnippets": [
+      {
+        "id": "stringify-request-body",
+        "title": "Stringify a request body",
+        "language": "js",
+        "description": "Convert an object into JSON text before sending it.",
+        "code": "const body = JSON.stringify({ title, completed: false });\n\nawait fetch(\"/api/todos\", {\n  method: \"POST\",\n  headers: { \"Content-Type\": \"application/json\" },\n  body,\n});",
+        "explanation": "HTTP request bodies are text or binary data, so the object must be converted to a JSON string."
+      },
+      {
+        "id": "parse-stored-value",
+        "title": "Parse saved data",
+        "language": "js",
+        "description": "Read a JSON string back into a JavaScript value.",
+        "code": "const saved = localStorage.getItem(\"settings\");\nconst settings = saved ? JSON.parse(saved) : { theme: \"light\" };",
+        "explanation": "localStorage returns strings, so JSON.parse restores the saved object shape."
+      }
+    ],
+    "commonMistake": "Forgetting that localStorage stores only strings, so saved objects must be stringified and parsed.",
+    "interviewQuestion": "Why do we use JSON.stringify before storing an object in localStorage?",
+    "interviewAnswer": "localStorage stores strings, so JSON.stringify converts the object into a string that can later be restored with JSON.parse.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The project persists watched movies by saving structured data in browser storage."
+    },
+    "related": ["js-fetch-api-basics", "js-browser-storage-basics", "localstorage-state-hook"]
+  },
+  {
+    "id": "js-browser-storage-basics",
+    "title": "Browser storage basics",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "localStorage", "sessionStorage", "browser api", "persistence"],
+    "summary": "Browser storage can keep small string values on the user's device between page loads.",
+    "whenToUse": "Use localStorage for small non-sensitive preferences, drafts, or saved UI data that should survive refreshes.",
+    "do": [
+      "Store only small non-sensitive data.",
+      "Stringify objects and arrays before saving them.",
+      "Read storage in a lazy initializer or effect when using React."
+    ],
+    "dont": [
+      "Do not store passwords, tokens, or private data casually in localStorage.",
+      "Do not read and parse storage on every render."
+    ],
+    "codeSnippets": [
+      {
+        "id": "save-preference",
+        "title": "Save a preference",
+        "language": "js",
+        "description": "Use localStorage for a small persistent value.",
+        "code": "localStorage.setItem(\"theme\", \"dark\");\nconst theme = localStorage.getItem(\"theme\") ?? \"light\";",
+        "explanation": "The saved value remains available after a page refresh in the same browser."
+      },
+      {
+        "id": "save-array",
+        "title": "Save an array",
+        "language": "js",
+        "description": "Convert structured data to JSON before saving it.",
+        "code": "localStorage.setItem(\"watched\", JSON.stringify(watchedMovies));\nconst watched = JSON.parse(localStorage.getItem(\"watched\") ?? \"[]\");",
+        "explanation": "Arrays and objects must become strings before storage can save them."
+      }
+    ],
+    "commonMistake": "Using localStorage as if it were React state instead of syncing storage with state intentionally.",
+    "interviewQuestion": "When is localStorage useful in a React app?",
+    "interviewAnswer": "It is useful for small non-sensitive values that should persist after refresh, usually synced through state and an effect or a custom hook.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The watched movies list is persisted between visits using browser storage."
+    },
+    "related": ["js-json-parse-stringify", "localstorage-state-hook", "useeffect-basics"]
+  },
+  {
+    "id": "js-const-let-scope",
+    "title": "const, let, and scope",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "const", "let", "scope", "variables"],
+    "summary": "const and let create block-scoped variables; React code usually uses const unless a local variable must be reassigned.",
+    "whenToUse": "Use const for components, props, state values, derived values, handlers, and arrays or objects whose binding should not be reassigned.",
+    "do": [
+      "Use const by default for values inside components.",
+      "Use let only when the same local variable must be reassigned.",
+      "Keep variables close to the code that uses them."
+    ],
+    "dont": [
+      "Do not use var in modern React code.",
+      "Do not confuse const with immutability of object contents."
+    ],
+    "codeSnippets": [
+      {
+        "id": "const-derived-values",
+        "title": "Use const for derived values",
+        "language": "jsx",
+        "description": "Most component values are calculated once per render.",
+        "code": "function ResultsHeader({ results }) {\n  const count = results.length;\n  const label = count === 1 ? \"result\" : \"results\";\n\n  return <h2>{count} {label}</h2>;\n}",
+        "explanation": "count and label are recreated on every render, but they are not reassigned during that render."
+      },
+      {
+        "id": "let-for-local-reassignment",
+        "title": "Use let for reassignment",
+        "language": "jsx",
+        "description": "Use let only when a local value changes before rendering.",
+        "code": "let status = \"idle\";\n\nif (isLoading) status = \"loading\";\nif (error) status = \"error\";",
+        "explanation": "The variable binding changes, so let is the right choice for this local calculation."
+      }
+    ],
+    "commonMistake": "Assuming const makes an object deeply immutable; const only prevents reassigning the variable binding.",
+    "interviewQuestion": "Why is const used so often in React components?",
+    "interviewAnswer": "Most values in a render are calculated and then read, not reassigned, so const communicates intent and avoids accidental reassignment.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review uses modern JavaScript variable declarations that React code relies on throughout the course."
+    },
+    "related": ["jsx-expressions", "derived-state", "js-spread-rest-immutability"]
+  },
+  {
+    "id": "js-truthy-falsy-booleans",
+    "title": "Truthy, falsy, and boolean checks",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "truthy", "falsy", "booleans", "conditional rendering"],
+    "summary": "JavaScript conditions use truthy and falsy values, which directly affects conditional rendering in JSX.",
+    "whenToUse": "Use explicit boolean checks when rendering empty states, badges, warnings, and UI that depends on data length or loaded values.",
+    "do": [
+      "Check array length when you care whether a list has items.",
+      "Use clear boolean variable names like hasResults or canSubmit.",
+      "Convert unclear values with Boolean when readability helps."
+    ],
+    "dont": [
+      "Do not treat an empty array as falsy; arrays are always truthy.",
+      "Do not let 0 accidentally hide or show UI without thinking about it."
+    ],
+    "codeSnippets": [
+      {
+        "id": "array-length-check",
+        "title": "Check an array before rendering",
+        "language": "jsx",
+        "description": "Use length instead of relying on the array value.",
+        "code": "function SearchResults({ results }) {\n  const hasResults = results.length > 0;\n\n  return hasResults ? <ResultList results={results} /> : <p>No results</p>;\n}",
+        "explanation": "An empty array is truthy, so results ? ... would not detect the empty state."
+      },
+      {
+        "id": "named-boolean",
+        "title": "Use a named boolean",
+        "language": "jsx",
+        "description": "Make conditions easier to read in JSX.",
+        "code": "const canSubmit = title.trim() !== \"\" && !isSaving;\n\nreturn <button disabled={!canSubmit}>Save</button>;",
+        "explanation": "The named boolean explains the rule and keeps the JSX compact."
+      }
+    ],
+    "commonMistake": "Writing items && <List /> and expecting it to hide the list when items is an empty array.",
+    "interviewQuestion": "Is an empty array truthy or falsy in JavaScript?",
+    "interviewAnswer": "An empty array is truthy, so check items.length when the condition depends on whether the array has elements.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review covers logical operators and conditional expressions that become important in JSX."
+    },
+    "related": ["conditional-rendering", "js-ternary-and-short-circuit", "rendering-lists"]
+  },
+  {
+    "id": "js-default-values",
+    "title": "Default values",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "defaults", "parameters", "props", "fallbacks"],
+    "summary": "Default values keep components predictable when props, function arguments, or API fields are missing.",
+    "whenToUse": "Use defaults for optional props, helper parameters, and UI fallback values that should always exist.",
+    "do": [
+      "Use default parameters for optional component props.",
+      "Use ?? for fallbacks when 0, false, or an empty string are valid.",
+      "Keep fallback values close to where the data is read."
+    ],
+    "dont": [
+      "Do not use || when valid falsy values should be preserved.",
+      "Do not hide required props by giving everything a default."
+    ],
+    "codeSnippets": [
+      {
+        "id": "default-props-parameter",
+        "title": "Default optional props",
+        "language": "jsx",
+        "description": "Destructured props can have default values.",
+        "code": "function Badge({ tone = \"neutral\", children = \"New\" }) {\n  return <span className={`badge badge--${tone}`}>{children}</span>;\n}",
+        "explanation": "If tone or children are not provided, the component still renders with useful defaults."
+      },
+      {
+        "id": "nullish-fallback",
+        "title": "Fallback for missing API data",
+        "language": "jsx",
+        "description": "Use ?? when only null or undefined should fall back.",
+        "code": "const displayName = user.name ?? \"Anonymous user\";",
+        "explanation": "The fallback is used only when name is null or undefined."
+      }
+    ],
+    "commonMistake": "Using || for defaults and accidentally replacing valid values like 0, false, or an empty string.",
+    "interviewQuestion": "How can a React component define default values for optional props?",
+    "interviewAnswer": "A common approach is to destructure props in the function parameter and assign default values there.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review introduces fallback logic that React components later use for optional data."
+    },
+    "related": ["component-props", "js-optional-chaining-nullish", "jsx-expressions"]
+  },
+  {
+    "id": "js-find-some-includes",
+    "title": "find, some, and includes",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "find", "some", "includes", "arrays", "derived state"],
+    "summary": "find selects one matching item, some checks if any item matches, and includes checks if a primitive value exists.",
+    "whenToUse": "Use these methods to select active items, check permissions, mark favorites, and derive UI flags from arrays.",
+    "do": [
+      "Use find when you need one object from an array.",
+      "Use some when you only need a true or false answer.",
+      "Use includes for primitive values such as strings or ids."
+    ],
+    "dont": [
+      "Do not use filter when you only need one item.",
+      "Do not use includes to compare objects by shape; it checks object references."
+    ],
+    "codeSnippets": [
+      {
+        "id": "find-selected-item",
+        "title": "Find selected data",
+        "language": "jsx",
+        "description": "Use find to get the active object.",
+        "code": "const selectedBook = books.find((book) => book.id === selectedId);\n\nreturn <h2>{selectedBook?.title ?? \"Choose a book\"}</h2>;",
+        "explanation": "find returns the first matching book or undefined, so optional chaining keeps the render safe."
+      },
+      {
+        "id": "some-and-includes",
+        "title": "Check whether something exists",
+        "language": "jsx",
+        "description": "Use some for objects and includes for primitive values.",
+        "code": "const isFavorite = favorites.some((book) => book.id === bookId);\nconst hasReactTag = tags.includes(\"react\");",
+        "explanation": "some runs a test for each object, while includes checks whether the exact primitive value is present."
+      }
+    ],
+    "commonMistake": "Using filter(...)[0] when find communicates the intent more clearly.",
+    "interviewQuestion": "What is the difference between find and filter?",
+    "interviewAnswer": "find returns the first matching item, while filter returns a new array with all matching items.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review builds array-method fluency that React uses for selecting, rendering, and deriving UI data."
+    },
+    "related": ["derived-state", "js-map-filter-reduce", "js-optional-chaining-nullish"]
+  },
+  {
+    "id": "js-import-export-modules",
+    "title": "Import and export modules",
+    "category": "JavaScript for React",
+    "level": "Beginner",
+    "tags": ["javascript", "modules", "import", "export", "files"],
+    "summary": "Modules let JavaScript files share components, functions, data, and hooks through import and export.",
+    "whenToUse": "Use modules to split React apps into components, utilities, hooks, and data files.",
+    "do": [
+      "Export reusable components, hooks, and helper functions.",
+      "Use default exports for one main thing from a file when the codebase prefers it.",
+      "Use named exports when a file exposes multiple utilities."
+    ],
+    "dont": [
+      "Do not put every component and helper in one large file.",
+      "Do not mix default and named imports incorrectly."
+    ],
+    "codeSnippets": [
+      {
+        "id": "default-component-export",
+        "title": "Default export a component",
+        "language": "jsx",
+        "description": "A component file often exports one main component.",
+        "code": "export default function SearchBar({ query, onChange }) {\n  return <input value={query} onChange={onChange} />;\n}",
+        "explanation": "Another file can import this component with any local name."
+      },
+      {
+        "id": "named-utility-export",
+        "title": "Named export a utility",
+        "language": "jsx",
+        "description": "Named exports make utility imports explicit.",
+        "code": "export function formatCount(count) {\n  return `${count} items`;\n}\n\nimport { formatCount } from \"./formatCount.js\";",
+        "explanation": "The import name must match the exported name, which makes utility usage clear."
+      }
+    ],
+    "commonMistake": "Importing a named export as if it were a default export, or the reverse.",
+    "interviewQuestion": "Why do React apps use JavaScript modules?",
+    "interviewAnswer": "Modules keep code organized by allowing files to export reusable pieces and import only what they need.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "JavaScript Review",
+      "repoFolder": "02-JS-review",
+      "notes": "The review prepares the JavaScript foundation used later when React components and hooks are split across files."
+    },
+    "related": ["react-components", "custom-hooks", "js-arrow-functions-callbacks"]
+  }
+]
