@@ -1,0 +1,24 @@
+[
+  {
+    "id": "jsx-expressions",
+    "title": "JSX expressions",
+    "category": "JSX",
+    "level": "Beginner",
+    "tags": ["jsx", "expressions", "markup", "javascript"],
+    "summary": "JSX lets you write markup-like syntax inside JavaScript and insert expressions with curly braces.",
+    "whenToUse": "Use JSX to describe UI while keeping dynamic values close to the markup that displays them.",
+    "syntax": "<h1>{user.name}</h1>",
+    "example": "function Greeting({ user }) {\n  return <h1>Hello, {user.name}</h1>;\n}",
+    "commonMistake": "Putting statements like if or for directly inside JSX braces; braces accept expressions.",
+    "interviewQuestion": "What can you put inside JSX curly braces?",
+    "interviewAnswer": "You can put JavaScript expressions, such as variables, function calls, ternaries, and array maps.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Course reference pending",
+      "repoFolder": "",
+      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+    },
+    "related": ["react-components", "conditional-rendering"]
+  }
+]
+

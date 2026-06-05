@@ -1,0 +1,87 @@
+[
+  {
+    "id": "react-components",
+    "title": "React components",
+    "category": "Basics",
+    "level": "Beginner",
+    "tags": ["components", "function", "ui", "reuse"],
+    "summary": "A component is a JavaScript function that returns UI.",
+    "whenToUse": "Use components to split the interface into small named pieces that can be reused and tested mentally.",
+    "syntax": "function Welcome() {\n  return <h1>Hello</h1>;\n}",
+    "example": "function Alert({ message }) {\n  return <p className=\"alert\">{message}</p>;\n}",
+    "commonMistake": "Starting component names with lowercase letters, which makes React treat them like built-in HTML tags.",
+    "interviewQuestion": "What is a React component?",
+    "interviewAnswer": "A React component is a reusable function that describes what should appear on the screen for a piece of UI.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Course reference pending",
+      "repoFolder": "",
+      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+    },
+    "related": ["jsx-expressions", "component-props", "children-prop"]
+  },
+  {
+    "id": "conditional-rendering",
+    "title": "Conditional rendering",
+    "category": "Basics",
+    "level": "Beginner",
+    "tags": ["conditional", "rendering", "ternary", "&&"],
+    "summary": "Conditional rendering shows different UI depending on current data or state.",
+    "whenToUse": "Use it for loading messages, empty states, toggled panels, validation messages, and alternative views.",
+    "syntax": "{isOpen ? <Panel /> : null}",
+    "example": "function Status({ isOnline }) {\n  return <p>{isOnline ? \"Online\" : \"Away\"}</p>;\n}",
+    "commonMistake": "Using complex nested ternaries directly in JSX until the render logic becomes hard to read.",
+    "interviewQuestion": "How can you conditionally render JSX?",
+    "interviewAnswer": "You can use normal JavaScript logic such as if statements before return, ternaries, logical &&, or early returns.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Course reference pending",
+      "repoFolder": "",
+      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+    },
+    "related": ["jsx-expressions", "usestate-basics"]
+  },
+  {
+    "id": "rendering-lists",
+    "title": "Rendering lists",
+    "category": "Basics",
+    "level": "Beginner",
+    "tags": ["lists", "map", "arrays", "rendering"],
+    "summary": "Use array methods like map to turn data into repeated JSX elements.",
+    "whenToUse": "Use list rendering whenever the UI repeats the same structure for multiple items.",
+    "syntax": "{items.map((item) => <li key={item.id}>{item.name}</li>)}",
+    "example": "function TodoList({ todos }) {\n  return <ul>{todos.map((todo) => <li key={todo.id}>{todo.text}</li>)}</ul>;\n}",
+    "commonMistake": "Mutating the array while rendering instead of mapping existing data to JSX.",
+    "interviewQuestion": "How do you render a list in React?",
+    "interviewAnswer": "Map over an array and return JSX for each item, giving each rendered item a stable key.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Course reference pending",
+      "repoFolder": "",
+      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+    },
+    "related": ["key-prop", "component-props"]
+  },
+  {
+    "id": "key-prop",
+    "title": "The key prop",
+    "category": "Basics",
+    "level": "Beginner",
+    "tags": ["key", "lists", "identity", "reconciliation"],
+    "summary": "A key gives React a stable identity for items in a rendered list.",
+    "whenToUse": "Use keys whenever rendering siblings from an array so React can update, insert, and remove the right elements.",
+    "syntax": "<li key={item.id}>{item.name}</li>",
+    "example": "const rows = users.map((user) => <UserRow key={user.id} user={user} />);",
+    "commonMistake": "Using the array index as a key for lists that can be reordered, inserted into, or deleted from.",
+    "interviewQuestion": "Why does React need keys in lists?",
+    "interviewAnswer": "Keys help React match list elements between renders so it can preserve the correct DOM and component state.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Course reference pending",
+      "repoFolder": "",
+      "notes": "This starter item will be connected to a specific course folder during a course-content task."
+    },
+    "related": ["rendering-lists"]
+  }
+]
+
