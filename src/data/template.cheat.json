@@ -1,0 +1,37 @@
+{
+  "id": "replace-with-kebab-case-id",
+  "title": "Replace with cheat sheet title",
+  "category": "Basics",
+  "level": "Beginner",
+  "tags": ["react", "replace-me"],
+  "summary": "One or two short sentences that explain the concept.",
+  "whenToUse": "Explain when this concept is useful in a practical React app.",
+  "do": [
+    "Write one practical rule to follow.",
+    "Write another practical rule if needed."
+  ],
+  "dont": [
+    "Write one mistake or habit to avoid."
+  ],
+  "codeSnippets": [
+    {
+      "id": "short-snippet-id",
+      "title": "Short snippet title",
+      "language": "jsx",
+      "description": "One sentence describing what this code demonstrates.",
+      "code": "function Example() {\n  return <p>Replace this with a short original example.</p>;\n}",
+      "explanation": "Explain how the snippet works in one or two short sentences."
+    }
+  ],
+  "commonMistake": "Describe a common mistake to avoid.",
+  "interviewQuestion": "Write a likely interview question about this concept.",
+  "interviewAnswer": "Answer the question with a short practical explanation.",
+  "courseReference": {
+    "course": "The Ultimate React Course",
+    "project": "Replace with project name",
+    "repoFolder": "replace-with-folder-name",
+    "notes": "Explain where this concept appears in the course project."
+  },
+  "related": ["related-item-id"]
+}
+
