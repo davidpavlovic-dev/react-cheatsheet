@@ -1,2 +1,87 @@
-[]
+[
+  {
+    "id": "custom-hooks",
+    "title": "Custom hooks",
+    "category": "Hooks",
+    "level": "Intermediate",
+    "tags": ["custom hooks", "hooks", "reuse", "logic"],
+    "summary": "A custom hook is a function that uses React hooks to package reusable stateful logic.",
+    "whenToUse": "Use custom hooks when multiple components need the same effect, state, subscription, persistence, or request logic.",
+    "do": [
+      "Start custom hook names with use.",
+      "Return the state and functions the component needs.",
+      "Keep UI markup in components and reusable logic in hooks."
+    ],
+    "dont": [
+      "Do not call custom hooks conditionally.",
+      "Do not hide unrelated app behavior inside one large custom hook."
+    ],
+    "codeSnippets": [
+      {
+        "id": "use-window-title",
+        "title": "Extract a document title hook",
+        "language": "jsx",
+        "description": "Move reusable effect logic behind a custom hook.",
+        "code": "function useWindowTitle(title) {\n  useEffect(() => {\n    const previousTitle = document.title;\n    document.title = title;\n\n    return () => {\n      document.title = previousTitle;\n    };\n  }, [title]);\n}",
+        "explanation": "Any component can call useWindowTitle without repeating the effect and cleanup details."
+      },
+      {
+        "id": "use-search-results",
+        "title": "Return state from a custom hook",
+        "language": "jsx",
+        "description": "A hook can expose data, loading state, and error state together.",
+        "code": "function useSearchResults(query) {\n  const [results, setResults] = useState([]);\n  const [isLoading, setIsLoading] = useState(false);\n  const [error, setError] = useState(\"\");\n\n  return { results, isLoading, error };\n}",
+        "explanation": "The component receives a small API and does not need to know how the hook manages the internal state."
+      }
+    ],
+    "commonMistake": "Extracting a custom hook too early before the repeated logic is clear.",
+    "interviewQuestion": "What problem do custom hooks solve?",
+    "interviewAnswer": "They let you reuse stateful React logic between components without duplicating effects and state management.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The project extracts movie fetching, localStorage persistence, and keyboard handling into custom hooks."
+    },
+    "related": ["useeffect-fetch-data", "localstorage-state-hook", "effect-cleanup-function"]
+  },
+  {
+    "id": "localstorage-state-hook",
+    "title": "localStorage state hook",
+    "category": "Hooks",
+    "level": "Intermediate",
+    "tags": ["localStorage", "custom hooks", "useState", "useEffect", "persistence"],
+    "summary": "A localStorage state hook keeps a state value in sync with browser storage.",
+    "whenToUse": "Use it for small client-side preferences or saved lists that should survive page refreshes.",
+    "do": [
+      "Read localStorage in a lazy useState initializer.",
+      "Write to localStorage in an effect when the value changes.",
+      "Use a stable storage key."
+    ],
+    "dont": [
+      "Do not read localStorage directly during every render.",
+      "Do not store sensitive data in localStorage."
+    ],
+    "codeSnippets": [
+      {
+        "id": "persistent-state",
+        "title": "Persist state to localStorage",
+        "language": "jsx",
+        "description": "Initialize from localStorage once, then write changes in an effect.",
+        "code": "function usePersistentState(initialValue, key) {\n  const [value, setValue] = useState(() => {\n    const stored = localStorage.getItem(key);\n    return stored ? JSON.parse(stored) : initialValue;\n  });\n\n  useEffect(() => {\n    localStorage.setItem(key, JSON.stringify(value));\n  }, [key, value]);\n\n  return [value, setValue];\n}",
+        "explanation": "The lazy initializer avoids reading storage on every render, and the effect persists each value change."
+      }
+    ],
+    "commonMistake": "Calling localStorage.getItem directly in the component body on every render.",
+    "interviewQuestion": "How can you persist React state to localStorage?",
+    "interviewAnswer": "Initialize state from localStorage with a lazy initializer, then use an effect to write the updated value when it changes.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The watched movies list is persisted with a custom localStorage state hook."
+    },
+    "related": ["custom-hooks", "useeffect-basics", "usestate-basics"]
+  }
+]
 

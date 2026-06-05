@@ -226,6 +226,82 @@
       "notes": "The stats area calculates packed counts and percentages from the current item list."
     },
     "related": ["usestate-basics", "rendering-lists", "controlled-inputs"]
+  },
+  {
+    "id": "loading-state",
+    "title": "Loading state",
+    "category": "State",
+    "level": "Beginner",
+    "tags": ["loading", "state", "async", "fetch", "ui"],
+    "summary": "Loading state tracks whether async work is currently in progress so the UI can show feedback.",
+    "whenToUse": "Use it around API requests, form submits, lazy data loading, and any action where the user should not wonder if the app is stuck.",
+    "do": [
+      "Set loading to true before async work starts.",
+      "Set loading back to false in finally so it runs after success or failure.",
+      "Use loading state to render a spinner, skeleton, or short status message."
+    ],
+    "dont": [
+      "Do not leave loading true when an error happens.",
+      "Do not show stale results as if they are fresh while a new request is loading."
+    ],
+    "codeSnippets": [
+      {
+        "id": "request-loading-state",
+        "title": "Track request progress",
+        "language": "jsx",
+        "description": "Use loading state to choose between a status message and normal UI.",
+        "code": "const [isLoading, setIsLoading] = useState(false);\n\nasync function loadMovies() {\n  try {\n    setIsLoading(true);\n    await fetchMovies();\n  } finally {\n    setIsLoading(false);\n  }\n}\n\nreturn isLoading ? <p>Loading...</p> : <MovieList />;",
+        "explanation": "The UI shows loading feedback while the request is running and returns to normal after the request settles."
+      }
+    ],
+    "commonMistake": "Setting loading to false only in the success path and forgetting the error path.",
+    "interviewQuestion": "Why is loading state useful in React?",
+    "interviewAnswer": "It lets the UI communicate that async work is in progress and prevents users from seeing a silent or confusing empty screen.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The app shows a loader while movie search results or movie details are being fetched."
+    },
+    "related": ["useeffect-fetch-data", "error-state", "usestate-basics"]
+  },
+  {
+    "id": "error-state",
+    "title": "Error state",
+    "category": "State",
+    "level": "Beginner",
+    "tags": ["error", "state", "async", "fetch", "ui"],
+    "summary": "Error state stores a failure message or error object so the UI can explain what went wrong.",
+    "whenToUse": "Use it when API calls, form submissions, parsing, or other async work can fail in a way the user should see.",
+    "do": [
+      "Clear old errors before starting a new request.",
+      "Store a helpful message that the UI can render.",
+      "Render error UI separately from loading and success UI."
+    ],
+    "dont": [
+      "Do not only log errors to the console.",
+      "Do not keep showing an old error after the next request succeeds."
+    ],
+    "codeSnippets": [
+      {
+        "id": "request-error-state",
+        "title": "Show a request error",
+        "language": "jsx",
+        "description": "Catch a failed request and render an error message.",
+        "code": "const [error, setError] = useState(\"\");\n\nasync function loadMovies() {\n  try {\n    setError(\"\");\n    await fetchMovies();\n  } catch (error) {\n    setError(error.message || \"Something went wrong\");\n  }\n}\n\nreturn error ? <p role=\"alert\">{error}</p> : <MovieList />;",
+        "explanation": "The component clears stale errors before retrying and shows a user-facing message when the request fails."
+      }
+    ],
+    "commonMistake": "Catching an error but never storing it in state, leaving the user with no feedback.",
+    "interviewQuestion": "How should a component handle API errors?",
+    "interviewAnswer": "Catch the error, store a useful message in state, stop loading, and render a clear error state in the UI.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The movie search UI renders a specific error message when the API request fails or finds no movies."
+    },
+    "related": ["useeffect-fetch-data", "loading-state", "usestate-basics"]
   }
 ]
 

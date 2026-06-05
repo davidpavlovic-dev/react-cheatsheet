@@ -1,2 +1,171 @@
-[]
+[
+  {
+    "id": "useeffect-basics",
+    "title": "useEffect basics",
+    "category": "Effects",
+    "level": "Beginner",
+    "tags": ["useEffect", "effect", "side effects", "sync"],
+    "summary": "useEffect runs code after React paints the UI, usually to synchronize with something outside rendering.",
+    "whenToUse": "Use it for browser APIs, network requests, subscriptions, timers, document title updates, and other side effects.",
+    "do": [
+      "Keep rendering logic outside effects.",
+      "Use effects to synchronize with external systems.",
+      "Return a cleanup function when the effect starts something that must be stopped."
+    ],
+    "dont": [
+      "Do not use an effect for values that can be calculated during render.",
+      "Do not put user event logic in an effect when it belongs in an event handler."
+    ],
+    "codeSnippets": [
+      {
+        "id": "document-title-effect",
+        "title": "Synchronize the document title",
+        "language": "jsx",
+        "description": "Update a browser API after a value changes.",
+        "code": "import { useEffect } from \"react\";\n\nfunction MovieTitle({ title }) {\n  useEffect(() => {\n    document.title = title ? `Movie | ${title}` : \"Movies\";\n  }, [title]);\n\n  return <h1>{title || \"Pick a movie\"}</h1>;\n}",
+        "explanation": "The component renders first, then the effect keeps the browser tab title in sync with the current title."
+      }
+    ],
+    "commonMistake": "Using useEffect to copy props or state into another state variable instead of deriving the value during render.",
+    "interviewQuestion": "What is useEffect used for?",
+    "interviewAnswer": "useEffect lets a component synchronize with external systems after rendering, such as APIs, browser features, subscriptions, or timers.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The movie detail view uses effects to fetch details and synchronize the document title."
+    },
+    "related": ["effect-dependency-array", "effect-cleanup-function", "derived-state"]
+  },
+  {
+    "id": "effect-dependency-array",
+    "title": "useEffect dependency array",
+    "category": "Effects",
+    "level": "Beginner",
+    "tags": ["useEffect", "dependencies", "rerender", "stale values"],
+    "summary": "The dependency array tells React which values should cause an effect to run again.",
+    "whenToUse": "Use it whenever an effect reads props, state, or functions from the component scope.",
+    "do": [
+      "Include every reactive value the effect reads.",
+      "Keep dependencies small by moving unrelated logic out of the effect.",
+      "Treat missing dependencies as a bug unless you have a specific reason."
+    ],
+    "dont": [
+      "Do not omit dependencies to silence re-renders.",
+      "Do not use an empty array when the effect depends on changing props or state."
+    ],
+    "codeSnippets": [
+      {
+        "id": "query-dependency",
+        "title": "Run when query changes",
+        "language": "jsx",
+        "description": "A fetch effect should react to the value it uses.",
+        "code": "useEffect(() => {\n  if (query.length < 3) return;\n\n  loadResults(query);\n}, [query]);",
+        "explanation": "The effect runs after the first render and again whenever query changes."
+      },
+      {
+        "id": "mount-only-effect",
+        "title": "Run once on mount",
+        "language": "jsx",
+        "description": "An empty dependency array is for effects that do not read changing component values.",
+        "code": "useEffect(() => {\n  console.log(\"Component is ready\");\n}, []);",
+        "explanation": "Because the effect reads no reactive values, it can run only after the component mounts."
+      }
+    ],
+    "commonMistake": "Leaving a changing value out of the dependency array, which can make the effect use stale data.",
+    "interviewQuestion": "What does the dependency array in useEffect do?",
+    "interviewAnswer": "It tells React when to re-run the effect based on the reactive values the effect depends on.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The search effect depends on the current query, and the detail fetch depends on the selected movie id."
+    },
+    "related": ["useeffect-basics", "useeffect-fetch-data", "effect-cleanup-function"]
+  },
+  {
+    "id": "useeffect-fetch-data",
+    "title": "Fetching data with useEffect",
+    "category": "Effects",
+    "level": "Beginner",
+    "tags": ["useEffect", "fetch", "api", "async", "loading", "error"],
+    "summary": "Fetch data in an effect when the request is caused by rendering a component with a specific state or prop.",
+    "whenToUse": "Use it for simple client-side requests that should run when a search term, id, or filter changes.",
+    "do": [
+      "Define an async function inside the effect and call it.",
+      "Track loading and error state around the request.",
+      "Guard against invalid inputs before starting the request."
+    ],
+    "dont": [
+      "Do not make the effect callback itself async.",
+      "Do not ignore failed HTTP responses or API-level errors."
+    ],
+    "codeSnippets": [
+      {
+        "id": "fetch-search-results",
+        "title": "Fetch results for a search query",
+        "language": "jsx",
+        "description": "A small request flow with loading and error state.",
+        "code": "useEffect(() => {\n  if (query.length < 3) {\n    setResults([]);\n    return;\n  }\n\n  async function load() {\n    try {\n      setIsLoading(true);\n      setError(\"\");\n      const response = await fetch(`/api/movies?q=${query}`);\n      if (!response.ok) throw new Error(\"Could not load movies\");\n      setResults(await response.json());\n    } catch (error) {\n      setError(error.message);\n    } finally {\n      setIsLoading(false);\n    }\n  }\n\n  load();\n}, [query]);",
+        "explanation": "The effect reacts to query changes, clears old errors, shows loading, and stores either results or an error message."
+      }
+    ],
+    "commonMistake": "Starting a request for every small invalid input change instead of guarding until the input is useful.",
+    "interviewQuestion": "How do you fetch data in a React component with useEffect?",
+    "interviewAnswer": "Create an async function inside the effect, call it, update loading/error/data state, and include the values that trigger the request in the dependency array.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The app fetches movie search results from an API when the query changes."
+    },
+    "related": ["loading-state", "error-state", "effect-cleanup-function", "custom-hooks"]
+  },
+  {
+    "id": "effect-cleanup-function",
+    "title": "useEffect cleanup function",
+    "category": "Effects",
+    "level": "Beginner",
+    "tags": ["useEffect", "cleanup", "subscriptions", "AbortController", "events"],
+    "summary": "An effect cleanup function runs before the effect runs again and when the component unmounts.",
+    "whenToUse": "Use cleanup for event listeners, timers, subscriptions, in-flight requests, and temporary browser changes.",
+    "do": [
+      "Remove event listeners that the effect adds.",
+      "Cancel or ignore stale async work when dependencies change.",
+      "Undo browser changes like document title when needed."
+    ],
+    "dont": [
+      "Do not add a subscription without returning a cleanup.",
+      "Do not let older requests update state after newer requests have started."
+    ],
+    "codeSnippets": [
+      {
+        "id": "keyboard-cleanup",
+        "title": "Clean up an event listener",
+        "language": "jsx",
+        "description": "Remove the listener when the component unmounts or dependencies change.",
+        "code": "useEffect(() => {\n  function handleKeyDown(event) {\n    if (event.key === \"Escape\") onClose();\n  }\n\n  window.addEventListener(\"keydown\", handleKeyDown);\n  return () => window.removeEventListener(\"keydown\", handleKeyDown);\n}, [onClose]);",
+        "explanation": "The cleanup prevents duplicate listeners and keeps the handler tied to the current onClose function."
+      },
+      {
+        "id": "abort-fetch-cleanup",
+        "title": "Abort a stale request",
+        "language": "jsx",
+        "description": "Cancel an in-flight request when the search value changes.",
+        "code": "useEffect(() => {\n  const controller = new AbortController();\n\n  fetch(`/api/search?q=${query}`, { signal: controller.signal });\n\n  return () => controller.abort();\n}, [query]);",
+        "explanation": "When query changes, React runs the cleanup first, aborting the old request before starting the next one."
+      }
+    ],
+    "commonMistake": "Adding event listeners inside an effect but never removing them.",
+    "interviewQuestion": "When does an effect cleanup function run?",
+    "interviewAnswer": "It runs before the effect runs again because dependencies changed and when the component unmounts.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "usePopcorn",
+      "repoFolder": "07-usepopcorn",
+      "notes": "The app cleans up keyboard listeners, document title changes, and stale movie search requests."
+    },
+    "related": ["useeffect-basics", "effect-dependency-array", "useeffect-fetch-data"]
+  }
+]
 
