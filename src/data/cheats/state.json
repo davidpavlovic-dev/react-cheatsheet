@@ -35,7 +35,13 @@
       "repoFolder": "04-steps",
       "notes": "The project is a practical starting point for local UI state changes."
     },
-    "related": ["event-handlers", "controlled-inputs", "conditional-rendering"]
+    "related": [
+      "event-handlers",
+      "controlled-inputs",
+      "conditional-rendering",
+      "lifting-state-up",
+      "derived-state"
+    ]
   },
   {
     "id": "event-handlers",
@@ -81,7 +87,7 @@
       "repoFolder": "04-steps",
       "notes": "Buttons and navigation actions are a compact way to practice event handlers."
     },
-    "related": ["usestate-basics", "controlled-inputs"]
+    "related": ["usestate-basics", "controlled-inputs", "lifting-state-up"]
   },
   {
     "id": "controlled-inputs",
@@ -127,7 +133,99 @@
       "repoFolder": "05-travel-list",
       "notes": "Form fields are a practical place to connect input values to component state."
     },
-    "related": ["usestate-basics", "event-handlers"]
+    "related": ["usestate-basics", "event-handlers", "lifting-state-up"]
+  },
+  {
+    "id": "lifting-state-up",
+    "title": "Lifting state up",
+    "category": "State",
+    "level": "Beginner",
+    "tags": ["state", "props", "lifting state up", "shared state"],
+    "summary": "Lifting state up means moving state to the closest parent that needs to coordinate multiple children.",
+    "whenToUse": "Use it when sibling components need to read or update the same data, or when a parent must control which child view is active.",
+    "do": [
+      "Place shared state in the closest common parent.",
+      "Pass the current value down as props.",
+      "Pass event handler functions down so children can request changes."
+    ],
+    "dont": [
+      "Do not duplicate the same state in sibling components.",
+      "Do not let child components secretly own data that the parent needs to coordinate."
+    ],
+    "codeSnippets": [
+      {
+        "id": "shared-selected-item",
+        "title": "Parent owns selected item",
+        "language": "jsx",
+        "description": "A parent component owns the selected id and gives children data plus callbacks.",
+        "code": "function Dashboard({ items }) {\n  const [selectedId, setSelectedId] = useState(null);\n  const selectedItem = items.find((item) => item.id === selectedId);\n\n  return (\n    <>\n      <ItemList items={items} selectedId={selectedId} onSelect={setSelectedId} />\n      {selectedItem && <ItemDetails item={selectedItem} />}\n    </>\n  );\n}",
+        "explanation": "The list and detail panel stay in sync because the selected id lives in their shared parent."
+      },
+      {
+        "id": "child-requests-change",
+        "title": "Child requests parent update",
+        "language": "jsx",
+        "description": "Children call a prop function instead of owning shared data themselves.",
+        "code": "function ItemRow({ item, isSelected, onSelect }) {\n  return (\n    <button onClick={() => onSelect(item.id)}>\n      {isSelected ? \"Selected\" : item.name}\n    </button>\n  );\n}",
+        "explanation": "The child handles the click, but the parent decides how selected state changes."
+      }
+    ],
+    "commonMistake": "Keeping separate copies of shared state in multiple children, which makes the UI drift out of sync.",
+    "interviewQuestion": "What does lifting state up mean in React?",
+    "interviewAnswer": "It means moving shared state to the nearest common parent and passing values plus handlers down through props.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Eat-N-Split",
+      "repoFolder": "06-eat-n-split",
+      "notes": "The app coordinates friend selection, add-friend visibility, and bill splitting from a parent component."
+    },
+    "related": ["component-props", "event-handlers", "controlled-inputs"]
+  },
+  {
+    "id": "derived-state",
+    "title": "Derived state",
+    "category": "State",
+    "level": "Beginner",
+    "tags": ["state", "derived state", "computed values", "render"],
+    "summary": "Derived state is data calculated from existing props or state during render instead of stored separately.",
+    "whenToUse": "Use it for totals, percentages, filtered lists, selected objects, and display labels that can be recalculated from source data.",
+    "do": [
+      "Calculate values from existing state when rendering.",
+      "Keep the original source of truth small and clear.",
+      "Use array methods like filter, map, and find for derived collections or values."
+    ],
+    "dont": [
+      "Do not store a value in state if it can always be calculated from other state.",
+      "Do not update source state and derived state separately."
+    ],
+    "codeSnippets": [
+      {
+        "id": "calculate-progress",
+        "title": "Calculate a percentage from state",
+        "language": "jsx",
+        "description": "A progress value can be calculated from the current list each render.",
+        "code": "function Progress({ tasks }) {\n  const completed = tasks.filter((task) => task.done).length;\n  const percent = tasks.length === 0 ? 0 : Math.round((completed / tasks.length) * 100);\n\n  return <p>{percent}% complete</p>;\n}",
+        "explanation": "Only tasks are state. completed and percent are derived from tasks, so they cannot get stale."
+      },
+      {
+        "id": "derive-selected-object",
+        "title": "Find selected data from an id",
+        "language": "jsx",
+        "description": "Store the small stable id, then derive the full object.",
+        "code": "function FriendPanel({ friends, selectedId }) {\n  const selectedFriend = friends.find((friend) => friend.id === selectedId);\n\n  return selectedFriend ? <h2>{selectedFriend.name}</h2> : <p>No friend selected</p>;\n}",
+        "explanation": "The selected object is recalculated from friends and selectedId instead of stored as a second source of truth."
+      }
+    ],
+    "commonMistake": "Saving both the original data and a calculated version in state, then forgetting to keep them synchronized.",
+    "interviewQuestion": "When should you avoid creating a new state variable?",
+    "interviewAnswer": "Avoid new state when the value can be calculated from existing props or state during render.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Travel List",
+      "repoFolder": "05-travel-list",
+      "notes": "The stats area calculates packed counts and percentages from the current item list."
+    },
+    "related": ["usestate-basics", "rendering-lists", "controlled-inputs"]
   }
 ]
 

@@ -89,7 +89,7 @@
       "repoFolder": "03-pizza-menu",
       "notes": "Menu items can display different UI depending on their data."
     },
-    "related": ["jsx-expressions", "usestate-basics"]
+    "related": ["jsx-expressions", "usestate-basics", "derived-state"]
   },
   {
     "id": "rendering-lists",
@@ -127,7 +127,7 @@
       "repoFolder": "05-travel-list",
       "notes": "The packing list UI is a practical place to think about rendering arrays."
     },
-    "related": ["key-prop", "component-props"]
+    "related": ["key-prop", "component-props", "derived-state"]
   },
   {
     "id": "key-prop",

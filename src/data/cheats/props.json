@@ -35,7 +35,7 @@
       "repoFolder": "03-pizza-menu",
       "notes": "Components receive data from parent components to render menu content."
     },
-    "related": ["react-components", "children-prop"]
+    "related": ["react-components", "children-prop", "lifting-state-up"]
   },
   {
     "id": "children-prop",
@@ -73,7 +73,7 @@
       "repoFolder": "04-steps",
       "notes": "Wrapper and button components are useful places to practice composition."
     },
-    "related": ["component-props", "react-components"]
+    "related": ["component-props", "react-components", "lifting-state-up"]
   }
 ]
 
