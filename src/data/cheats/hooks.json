@@ -81,7 +81,7 @@
       "repoFolder": "07-usepopcorn",
       "notes": "The watched movies list is persisted with a custom localStorage state hook."
     },
-    "related": ["custom-hooks", "useeffect-basics", "usestate-basics"]
+    "related": ["js-browser-storage-basics", "js-json-parse-stringify", "custom-hooks", "useeffect-basics", "usestate-basics"]
   }
 ]
 

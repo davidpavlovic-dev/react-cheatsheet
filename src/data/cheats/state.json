@@ -133,7 +133,53 @@
       "repoFolder": "05-travel-list",
       "notes": "Form fields are a practical place to connect input values to component state."
     },
-    "related": ["usestate-basics", "event-handlers", "lifting-state-up"]
+    "related": ["usestate-basics", "event-handlers", "form-submit-prevent-default", "lifting-state-up"]
+  },
+  {
+    "id": "form-submit-prevent-default",
+    "title": "Form submit and preventDefault",
+    "category": "Forms",
+    "level": "Beginner",
+    "tags": ["forms", "submit", "preventDefault", "events", "controlled inputs"],
+    "summary": "React form submit handlers receive an event object and usually call preventDefault to stop the browser page reload.",
+    "whenToUse": "Use this pattern when a form should validate, create data, filter data, or call an API without leaving the current React page.",
+    "do": [
+      "Handle submit on the form element.",
+      "Call event.preventDefault before running React submit logic.",
+      "Use controlled state values inside the submit handler."
+    ],
+    "dont": [
+      "Do not put submit logic only on the button click when the form itself can submit.",
+      "Do not forget that pressing Enter in an input can submit the form."
+    ],
+    "codeSnippets": [
+      {
+        "id": "basic-submit-handler",
+        "title": "Handle form submit",
+        "language": "jsx",
+        "description": "Stop the browser reload and use the controlled value.",
+        "code": "function SearchForm({ onSearch }) {\n  const [query, setQuery] = useState(\"\");\n\n  function handleSubmit(event) {\n    event.preventDefault();\n    onSearch(query.trim());\n  }\n\n  return (\n    <form onSubmit={handleSubmit}>\n      <input value={query} onChange={(event) => setQuery(event.target.value)} />\n      <button>Search</button>\n    </form>\n  );\n}",
+        "explanation": "The form owns the submit event, preventDefault keeps React on the page, and query state contains the latest input value."
+      },
+      {
+        "id": "ignore-empty-submit",
+        "title": "Guard empty submissions",
+        "language": "jsx",
+        "description": "Validate before doing work.",
+        "code": "function handleSubmit(event) {\n  event.preventDefault();\n\n  const nextTitle = title.trim();\n  if (!nextTitle) return;\n\n  onAddItem(nextTitle);\n  setTitle(\"\");\n}",
+        "explanation": "The handler blocks empty input, sends clean data upward, and resets the controlled field after success."
+      }
+    ],
+    "commonMistake": "Forgetting preventDefault, which makes the browser reload the page and resets React state.",
+    "interviewQuestion": "Why do React form submit handlers often call event.preventDefault?",
+    "interviewAnswer": "Because the browser's default form submit reloads or navigates the page, while React usually wants to handle the data in JavaScript.",
+    "courseReference": {
+      "course": "The Ultimate React Course",
+      "project": "Travel List",
+      "repoFolder": "05-travel-list",
+      "notes": "The packing form submits controlled input data and then updates the item list."
+    },
+    "related": ["controlled-inputs", "event-handlers", "js-arrow-functions-callbacks"]
   },
   {
     "id": "lifting-state-up",
