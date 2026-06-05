@@ -1,4 +1,6 @@
-export default function AppLayout() {
+import CheatGrid from "../CheatGrid/CheatGrid.jsx";
+
+export default function AppLayout({ cheats }) {
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -32,27 +34,14 @@ export default function AppLayout() {
 
           <section className="content-section" aria-labelledby="cheat-grid-title">
             <div className="section-heading">
-              <p className="eyebrow">Cheat sheet</p>
-              <h2 id="cheat-grid-title">Cards</h2>
+              <div>
+                <p className="eyebrow">Cheat sheet</p>
+                <h2 id="cheat-grid-title">All cards</h2>
+              </div>
+              <span className="result-count">{cheats.length} cards</span>
             </div>
 
-            <div className="placeholder-grid" aria-hidden="true">
-              <article className="placeholder-card">
-                <span className="card-kicker">Basics</span>
-                <h3>Components</h3>
-                <p>Reusable UI pieces with their own props and rendering logic.</p>
-              </article>
-              <article className="placeholder-card">
-                <span className="card-kicker">JSX</span>
-                <h3>Rendering Rules</h3>
-                <p>Short syntax notes and examples for writing React markup.</p>
-              </article>
-              <article className="placeholder-card">
-                <span className="card-kicker">State</span>
-                <h3>useState</h3>
-                <p>Local state patterns for events, forms, and UI changes.</p>
-              </article>
-            </div>
+            <CheatGrid cheats={cheats} />
           </section>
         </div>
       </main>

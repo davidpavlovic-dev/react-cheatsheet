@@ -137,8 +137,10 @@ h1 {
 }
 
 .section-heading {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  justify-content: space-between;
   margin-bottom: 18px;
 }
 
@@ -152,38 +154,93 @@ h2 {
   font-size: 1.6rem;
 }
 
-.placeholder-grid {
+.result-count {
+  flex: 0 0 auto;
+  color: #667386;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.cheat-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
 }
 
-.placeholder-card {
-  min-height: 190px;
+.cheat-card {
+  display: flex;
+  min-height: 246px;
+  flex-direction: column;
   border: 1px solid #d9e1e7;
   border-radius: 8px;
   background: #ffffff;
   padding: 20px;
+  box-shadow: 0 14px 34px rgb(22 32 50 / 0.06);
 }
 
-.card-kicker {
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.category-badge,
+.level-badge {
   display: inline-flex;
-  margin-bottom: 16px;
+  min-height: 28px;
+  align-items: center;
   border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 0 10px;
+}
+
+.category-badge {
+  background: #e5f3f0;
+  color: #20534f;
+}
+
+.level-badge {
   background: #eef2f6;
   color: #536072;
-  font-size: 0.78rem;
+}
+
+.cheat-card h3 {
+  font-size: 1.15rem;
+  line-height: 1.25;
+}
+
+.cheat-card p {
+  margin: 12px 0 0;
+  color: #5f6b7a;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: auto 0 0;
+  padding: 22px 0 0;
+  list-style: none;
+}
+
+.tag-list li {
+  border-radius: 999px;
+  background: #f2f4f7;
+  color: #5a6574;
+  font-size: 0.8rem;
   font-weight: 700;
   padding: 5px 9px;
 }
 
-.placeholder-card h3 {
-  font-size: 1.15rem;
-}
-
-.placeholder-card p {
-  margin: 12px 0 0;
-  color: #5f6b7a;
+.grid-empty {
+  margin: 0;
+  border: 1px dashed #b7c3cc;
+  border-radius: 8px;
+  color: #667386;
+  padding: 28px;
+  text-align: center;
 }
 
 @media (max-width: 760px) {
@@ -203,7 +260,12 @@ h2 {
     grid-template-columns: 1fr;
   }
 
-  .placeholder-grid {
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .cheat-grid {
     grid-template-columns: 1fr;
   }
 }
